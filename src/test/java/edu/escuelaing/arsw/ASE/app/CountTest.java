@@ -1,38 +1,31 @@
 package edu.escuelaing.arsw.ASE.app;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-/**
- * Unit test for simple App.
- */
-public class CountTest
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public CountTest(String testName )
-    {
-        super( testName );
+import java.io.IOException;
+import java.nio.file.Paths;
+
+public class CountTest {
+
+    @Test
+    public void testCountPhysicalLines() throws IOException {
+        FileProcessor processor = new FileProcessor("phy");
+        long count = processor.processPath(Paths.get("src/test.java"));
+        assertEquals(16, count);
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( CountTest.class );
+    @Test
+    public void testCountLinesOfCode() throws IOException {
+        FileProcessor processor = new FileProcessor("loc");
+        long count = processor.processPath(Paths.get("src/testSinComentarios.java"));
+        assertEquals(9, count);
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+    @Test
+    public void testCountLinesNoComments() throws IOException {
+        FileProcessor processor = new FileProcessor("loc");
+        long count = processor.processPath(Paths.get("src/test.java"));
+        assertEquals(9, count);
     }
 }
